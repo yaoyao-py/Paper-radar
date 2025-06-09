@@ -19,8 +19,8 @@ class EmailNotifier:
         Args:
             email_config: 邮件配置
         """
-        self.sender = email_config.get('sender', '')
-        self.password = email_config.get('password', '')
+        self.sender = os.environ.get('EMAIL_SENDER', email_config.get('sender', ''))
+        self.password = os.environ.get('EMAIL_PASSWORD', email_config.get('password', ''))
         self.recipients = email_config.get('recipients', [])
         self.smtp_server = email_config.get('smtp_server', '')
         self.smtp_port = email_config.get('smtp_port', 587)
