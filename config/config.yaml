@@ -5,7 +5,7 @@ email:
   sender: "your_email@example.com"  # 发件人邮箱
   password: "your_password"         # 邮箱密码或应用专用密码
   recipients:                       # 收件人邮箱列表
-    - "lyao961013@gmail.com"
+    -  "your_email@gmail.com"       # 以gmail为例
   smtp_server: "smtp.gmail.com"   # SMTP服务器
   smtp_port: 587                    # SMTP端口
   use_tls: true                     # 是否使用TLS加密
