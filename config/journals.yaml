@@ -1,79 +1,75 @@
-api_sources = {
-    "arxiv": {
-        "name": "arXiv",
-        "type": "api",
-        "base_url": "http://export.arxiv.org/api/query",
-        "search_params": {
-            "search_query": "{keywords}",
-            "start": 0,
-            "max_results": 100,
-            "sortBy": "submittedDate",
-            "sortOrder": "descending"
-        },
-        "parser": "arxiv_parser",
-        "rate_limit": 3
-    }
-}
+api_sources:
+  arxiv:
+    name: "arXiv"
+    type: "api"
+    base_url: "http://export.arxiv.org/api/query"
+    search_params:
+      search_query: "{keywords}"
+      start: 0
+      max_results: 100
+      sortBy: "submittedDate"
+      sortOrder: "descending"
+    parser: "arxiv_parser"
+    rate_limit: 3
+  elsevier:
+    name: "ScienceDirect"
+    type: "api"
+    base_url: "https://api.elsevier.com/content/search/sciencedirect"
+    search_params:
+      query: "{keywords}"
+      apiKey: "cf027da438b14a7000f2e9718de5bfed"
+      count: 100
+    parser: "elsevier_parser"
+    rate_limit: 2
 
-rss_sources = {
-    "nature": {
-        "name": "Nature",
-        "type": "rss",
-        "url": "https://www.nature.com/nature.rss",
-        "parser": "nature_rss_parser"
-    },
-    "nature_energy": {
-        "name": "Nature Energy",
-        "type": "rss",
-        "url": "https://www.nature.com/nenergy.rss",
-        "parser": "nature_rss_parser"
-    },
-    "nature_materials": {
-        "name": "Nature Materials",
-        "type": "rss",
-        "url": "https://www.nature.com/nmat.rss",
-        "parser": "nature_rss_parser"
-    },
-    "science": {
-        "name": "Science",
-        "type": "rss",
-        "url": "https://www.science.org/rss/journal/science.xml",
-        "parser": "science_rss_parser"
-    },
-    "advanced_materials": {
-        "name": "Advanced Materials",
-        "type": "rss",
-        "url": "https://advancedsciencenews.com/feed/journal/advmat",
-        "parser": "wiley_rss_parser"
-    },
-    "advanced_functional_materials": {
-        "name": "Advanced Functional Materials",
-        "type": "rss",
-        "url": "https://advancedsciencenews.com/feed/journal/adfm",
-        "parser": "wiley_rss_parser"
-    },
-    "advanced_energy_materials": {
-        "name": "Advanced Energy Materials",
-        "type": "rss",
-        "url": "https://advancedsciencenews.com/feed/journal/aenm",
-        "parser": "wiley_rss_parser"
-    },
-    "jacs": {
-        "name": "Journal of the American Chemical Society",
-        "type": "rss",
-        "url": "https://pubs.acs.org/action/showFeed?type=etoc&feed=rss&jc=jacsat",
-        "parser": "acs_rss_parser"
-    },
-    "angewandte_chemie": {
-        "name": "Angewandte Chemie",
-        "type": "rss",
-        "url": "https://onlinelibrary.wiley.com/feed/15213773/most-recent",
-        "parser": "wiley_rss_parser"
-    },
-    "jes": {
-        "name": "Journal of The Electrochemical Society",
-        "type": "rss",
-        "url": "https://iopscience.iop.org/journal/1945-7111/rss",
-        "parser": "iop_rss_parser"
-    }
-}
+rss_sources:
+  nature:
+    name: "Nature"
+    type: "rss"
+    url: "https://www.nature.com/nature.rss"
+    parser: "nature_rss_parser"
+  nature_energy:
+    name: "Nature Energy"
+    type: "rss"
+    url: "https://www.nature.com/nenergy.rss"
+    parser: "nature_rss_parser"
+  nature_materials:
+    name: "Nature Materials"
+    type: "rss"
+    url: "https://www.nature.com/nmat.rss"
+    parser: "nature_rss_parser"
+  science:
+    name: "Science"
+    type: "rss"
+    url: "https://www.science.org/rss/journal/science.xml"
+    parser: "science_rss_parser"
+  advanced_materials:
+    name: "Advanced Materials"
+    type: "rss"
+    url: "https://advancedsciencenews.com/feed/journal/advmat"
+    parser: "wiley_rss_parser"
+  advanced_functional_materials:
+    name: "Advanced Functional Materials"
+    type: "rss"
+    url: "https://advancedsciencenews.com/feed/journal/adfm"
+    parser: "wiley_rss_parser"
+  advanced_energy_materials:
+    name: "Advanced Energy Materials"
+    type: "rss"
+    url: "https://advancedsciencenews.com/feed/journal/aenm"
+    parser: "wiley_rss_parser"
+  jacs:
+    name: "Journal of the American Chemical Society"
+    type: "rss"
+    url: "https://pubs.acs.org/action/showFeed?type=etoc&feed=rss&jc=jacsat"
+    parser: "acs_rss_parser"
+  angewandte_chemie:
+    name: "Angewandte Chemie"
+    type: "rss"
+    url: "https://onlinelibrary.wiley.com/feed/15213773/most-recent"
+    parser: "wiley_rss_parser"
+  jes:
+    name: "Journal of The Electrochemical Society"
+    type: "rss"
+    url: "https://iopscience.iop.org/journal/1945-7111/rss"
+    parser: "iop_rss_parser"
