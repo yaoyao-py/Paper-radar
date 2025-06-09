@@ -5,7 +5,7 @@ import os
 import sys
 import logging
 import argparse
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, Any, List, Optional
 
 # 添加src目录到Python路径
@@ -19,9 +19,9 @@ from src.filters.keyword_filter import KeywordFilter
 from src.storage.article_storage import ArticleStorage
 from src.notifiers.email_notifier import EmailNotifier
 
-def filter_today_articles(articles: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """只保留今天发布的文章"""
-    today = datetime.now().date()
+def filter_yesterday_articles(articles: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """只保留昨天发布的文章"""
+    yesterday = (datetime.now() - timedelta(days=1)).date()
     filtered = []
     for article in articles:
         pub_date = article.get('published_date')
@@ -35,7 +35,7 @@ def filter_today_articles(articles: List[Dict[str, Any]]) -> List[Dict[str, Any]
             pub_date_obj = pub_date.date()
         else:
             continue
-        if pub_date_obj == today:
+        if pub_date_obj == yesterday:
             filtered.append(article)
     return filtered
 
@@ -132,12 +132,12 @@ def main():
         filtered_articles = keyword_filter.filter_articles(all_articles)
         logging.info(f"关键词过滤后剩余 {len(filtered_articles)} 篇文章")
         
-        # 只保留今天的文章
-        today_articles = filter_today_articles(filtered_articles)
-        logging.info(f"仅保留今天的文章后剩余 {len(today_articles)} 篇文章")
+        # 只保留昨天的文章
+        yesterday_articles = filter_yesterday_articles(filtered_articles)
+        logging.info(f"仅保留昨天的文章后剩余 {len(yesterday_articles)} 篇文章")
         
         # 保存文章并去重
-        new_articles = article_storage.save_articles(today_articles)
+        new_articles = article_storage.save_articles(yesterday_articles)
         logging.info(f"去重后有 {len(new_articles)} 篇新文章")
         
         # 发送邮件
