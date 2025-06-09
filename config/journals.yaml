@@ -17,7 +17,7 @@ api_sources:
     base_url: "https://api.elsevier.com/content/search/sciencedirect"
     search_params:
       query: "{keywords}"
-      apiKey: "cf027da438b14a7000f2e9718de5bfed"
+      apiKey: "yourapi"
       count: 100
     parser: "elsevier_parser"
     rate_limit: 2
