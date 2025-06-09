@@ -1,108 +1,135 @@
-# 期刊和数据库配置文件
-
-# API类型数据源
 api_sources:
   arxiv:
-    name: "arXiv"
-    type: "api"
-    base_url: "http://export.arxiv.org/api/query"
+    name: arXiv
+    type: api
+    base_url: http://export.arxiv.org/api/query
     search_params:
-      search_query: "{keywords}"
+      search_query: '{keywords}'
       start: 0
-      max_results: 10
-      sortBy: "submittedDate"
-      sortOrder: "descending"
-    parser: "arxiv_parser"
-    rate_limit: 3  # 每秒请求数限制
-
+      max_results: 100
+      sortBy: submittedDate
+      sortOrder: descending
+    parser: arxiv_parser
+    rate_limit: 3
   elsevier:
-    name: "ScienceDirect"
-    type: "api"
-    base_url: "https://api.elsevier.com/content/search/sciencedirect"
+    name: ScienceDirect
+    type: api
+    base_url: https://api.elsevier.com/content/search/sciencedirect
     search_params:
-      query: "{keywords}"
-      apiKey: "cf027da438b14a7000f2e9718de5bfed"  # 需要替换为实际的API密钥
-      count: 10
-    parser: "elsevier_parser"
+      query: '{keywords}'
+      apiKey: cf027da438b14a7000f2e9718de5bfed
+      count: 100
+    parser: elsevier_parser
     rate_limit: 2
 
-# RSS类型数据源
 rss_sources:
   nature:
-    name: "Nature"
-    type: "rss"
-    url: "https://www.nature.com/nature.rss"
-    parser: "nature_rss_parser"
-
+    name: Nature
+    type: rss
+    url: https://www.nature.com/nature.rss
+    parser: nature_rss_parser
+  nature_energy:
+    name: Nature Energy
+    type: rss
+    url: https://www.nature.com/nenergy.rss
+    parser: nature_rss_parser
+  nature_materials:
+    name: Nature Materials
+    type: rss
+    url: https://www.nature.com/nmat.rss
+    parser: nature_rss_parser
   science:
-    name: "Science"
-    type: "rss"
-    url: "https://www.science.org/rss/journal/science.xml"
-    parser: "science_rss_parser"
-
+    name: Science
+    type: rss
+    url: https://www.science.org/rss/journal/science.xml
+    parser: science_rss_parser
   advanced_materials:
-    name: "Advanced Materials"
-    type: "rss"
-    url: "https://advanced.onlinelibrary.wiley.com/action/showFeed?jc=15214095&type=etoc&feed=rss"
-    parser: "wiley_rss_parser"
-
-  nature_photonics:
-    name: "Nature Photonics"
-    type: "rss"
-    url: "https://www.nature.com/nphoton.rss"
-    parser: "nature_rss_parser"
-
+    name: Advanced Materials
+    type: rss
+    url: https://advanced.onlinelibrary.wiley.com/action/showFeed?jc=15214095&type=etoc&feed=rss
+    parser: wiley_rss_parser
   advanced_functional_materials:
-    name: "Advanced Functional Materials"
-    type: "rss"
-    url: "https://advanced.onlinelibrary.wiley.com/action/showFeed?jc=16163028&type=etoc&feed=rss"
-    parser: "wiley_rss_parser"
-
+    name: Advanced Functional Materials
+    type: rss
+    url: https://advanced.onlinelibrary.wiley.com/action/showFeed?jc=16163028&type=etoc&feed=rss
+    parser: wiley_rss_parser
   advanced_energy_materials:
-    name: "Advanced Energy Materials"
-    type: "rss"
-    url: "https://advanced.onlinelibrary.wiley.com/action/showFeed?jc=16146840&type=etoc&feed=rss"
-    parser: "wiley_rss_parser"
+    name: Advanced Energy Materials
+    type: rss
+    url: https://advanced.onlinelibrary.wiley.com/action/showFeed?jc=16146840&type=etoc&feed=rss
+    parser: wiley_rss_parser
 
-  energy_environmental_science:
-    name: "Energy & Environmental Science"
-    type: "rss"
-    url: "https://pubs.rsc.org/en/journals/journalissues/ee?issueid=current&type=current&issnprint=1754-5692"
-    parser: "rsc_rss_parser"
-
-  acs_applied_materials:
-    name: "ACS Applied Materials & Interfaces"
-    type: "rss"
-    url: "https://pubs.acs.org/action/showFeed?type=etoc&feed=rss&jc=aamick"
-    parser: "acs_rss_parser"
-
-# 网页爬取类型数据源（用于无API或RSS的情况）
 web_sources:
   sciencedirect:
-    name: "ScienceDirect"
-    type: "web"
-    base_url: "https://www.sciencedirect.com/search"
+    name: ScienceDirect
+    type: web
+    base_url: https://www.sciencedirect.com/search
     search_params:
-      qs: "{keywords}"
+      qs: '{keywords}'
       show: 100
-      sortBy: "date"
-    parser: "sciencedirect_web_parser"
-    rate_limit: 2  # 降低请求频率
+      sortBy: date
+    parser: sciencedirect_web_parser
+    rate_limit: 2
     headers:
-      User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"  # 更新为最新Chrome UA
-      Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
-      Accept-Language: "en-US,en;q=0.9"
-      Referer: "https://www.sciencedirect.com/"
-      Connection: "keep-alive"
-      Upgrade-Insecure-Requests: "1"
-    cookies: {}  # 允许自动管理Cookies
-    use_session: true  # 启用会话保持
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36
+      Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+      Accept-Language: en-US,en;q=0.9
+      Referer: https://www.sciencedirect.com/
+      Connection: keep-alive
+      Upgrade-Insecure-Requests: '1'
+    cookies: {}
+    use_session: true
     verify_ssl: true
     timeout: 30
     selectors:
-      article_container: "div.result-item"
-      title: "h2"
-      authors: "div.Authors"
-      abstract: "div.abstract-text"
-      link: "h2 a"
-      date: "div.publication-date"
+      article_container: div.result-item
+      title: h2
+      authors: div.Authors
+      abstract: div.abstract-text
+      link: h2 a
+      date: div.publication-date
+  jacs:
+    name: JACS
+    type: web
+    base_url: https://pubs.acs.org/action/doSearch?AllField={keywords}
+    parser: acs_web_parser
+    rate_limit: 1
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36
+    selectors:
+      article_container: div.issue-item
+      title: h2
+      authors: div.author
+      abstract: div.abstract
+      link: h2 a
+      date: span.pub-date
+  angewandte_chemie:
+    name: Angewandte Chemie
+    type: web
+    base_url: https://onlinelibrary.wiley.com/action/doSearch?AllField={keywords}
+    parser: wiley_web_parser
+    rate_limit: 1
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36
+    selectors:
+      article_container: div.issue-item
+      title: h2
+      authors: div.author
+      abstract: div.abstract
+      link: h2 a
+      date: span.pub-date
+  journal_of_the_electrochemical_society:
+    name: Journal of The Electrochemical Society
+    type: web
+    base_url: https://iopscience.iop.org/search?query={keywords}
+    parser: iop_web_parser
+    rate_limit: 1
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36
+    selectors:
+      article_container: div.search__item
+      title: h2
+      authors: div.author
+      abstract: div.abstract
+      link: h2 a
+      date: span.pub-date
