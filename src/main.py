@@ -5,6 +5,7 @@ import os
 import sys
 import logging
 import argparse
+from datetime import datetime
 from typing import Dict, Any, List, Optional
 
 # 添加src目录到Python路径
@@ -18,8 +19,34 @@ from src.filters.keyword_filter import KeywordFilter
 from src.storage.article_storage import ArticleStorage
 from src.notifiers.email_notifier import EmailNotifier
 
+def filter_today_articles(articles: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """只保留今天发布的文章"""
+    today = datetime.now().date()
+    filtered = []
+    for article in articles:
+        pub_date = article.get('published_date')
+        # 兼容字符串和datetime对象
+        if isinstance(pub_date, str):
+            try:
+                pub_date_obj = datetime.strptime(pub_date[:10], "%Y-%m-%d").date()
+            except Exception:
+                continue
+        elif isinstance(pub_date, datetime):
+            pub_date_obj = pub_date.date()
+        else:
+            continue
+        if pub_date_obj == today:
+            filtered.append(article)
+    return filtered
+
 def main():
     """主程序入口"""
+    # 配置日志
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
+
     # 解析命令行参数
     parser = argparse.ArgumentParser(description='研究论文追踪器')
     parser.add_argument('--config-dir', type=str, default='config',
@@ -64,10 +91,10 @@ def main():
         # 获取数据源配置
         api_sources = config_manager.get_api_sources()
         rss_sources = config_manager.get_rss_sources()
-        web_sources = config_manager.get_web_sources()
-        
+        web_sources = config_manager.get_web_sources() if hasattr(config_manager, 'get_web_sources') else {}
+
         # 设置最大文章数
-        max_articles_per_source = run_config.get('max_articles_per_source', 10)
+        max_articles_per_source = run_config.get('max_articles_per_source', 100)
         
         # 收集所有文章
         all_articles = []
@@ -101,12 +128,16 @@ def main():
         
         logging.info(f"总共收集到 {len(all_articles)} 篇文章")
         
-        # 过滤文章
+        # 过滤文章（关键词过滤）
         filtered_articles = keyword_filter.filter_articles(all_articles)
         logging.info(f"关键词过滤后剩余 {len(filtered_articles)} 篇文章")
         
+        # 只保留今天的文章
+        today_articles = filter_today_articles(filtered_articles)
+        logging.info(f"仅保留今天的文章后剩余 {len(today_articles)} 篇文章")
+        
         # 保存文章并去重
-        new_articles = article_storage.save_articles(filtered_articles)
+        new_articles = article_storage.save_articles(today_articles)
         logging.info(f"去重后有 {len(new_articles)} 篇新文章")
         
         # 发送邮件
