@@ -21,7 +21,7 @@ api_sources:
     base_url: "https://api.elsevier.com/content/search/sciencedirect"
     search_params:
       query: "{keywords}"
-      apiKey: "	cf027da438b14a7000f2e9718de5bfed"  # 需要替换为实际的API密钥
+      apiKey: "cf027da438b14a7000f2e9718de5bfed"  # 需要替换为实际的API密钥
       count: 10
     parser: "elsevier_parser"
     rate_limit: 2
