@@ -6,6 +6,7 @@ import logging
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from typing import Dict, Any, List, Optional
+import os
 
 class EmailNotifier:
     """
