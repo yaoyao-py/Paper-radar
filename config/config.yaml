@@ -1,0 +1,35 @@
+# 研究论文追踪器配置文件
+
+# 邮件配置
+email:
+  sender: "your_email@example.com"  # 发件人邮箱
+  password: "your_password"         # 邮箱密码或应用专用密码
+  recipients:                       # 收件人邮箱列表
+    - "recipient@example.com"
+  smtp_server: "smtp.example.com"   # SMTP服务器
+  smtp_port: 587                    # SMTP端口
+  use_tls: true                     # 是否使用TLS加密
+
+# 运行配置
+run:
+  frequency: "daily"                # 运行频率（daily, weekly）
+  max_articles_per_source: 10       # 每个数据源最多获取的文章数
+  max_articles_per_email: 50        # 每封邮件最多包含的文章数
+
+# 存储配置
+storage:
+  database_path: "data/articles.db" # SQLite数据库路径
+  retention_days: 30                # 文章保留天数
+
+# 日志配置
+logging:
+  level: "INFO"                     # 日志级别（DEBUG, INFO, WARNING, ERROR, CRITICAL）
+  file: "data/logs/app.log"         # 日志文件路径
+  max_size_mb: 10                   # 日志文件最大大小（MB）
+  backup_count: 5                   # 保留的日志文件数量
+
+# 代理配置（可选）
+proxy:
+  enabled: false                    # 是否启用代理
+  http: "http://proxy.example.com:8080"
+  https: "https://proxy.example.com:8080"

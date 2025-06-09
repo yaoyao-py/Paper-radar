@@ -1,0 +1,17 @@
+# 关键词配置文件
+
+# 关键词列表
+keywords:
+  - "perovskite solar cell"
+  - "indoor photovoltaics"
+  - "wearable device"
+
+# 关键词匹配设置
+matching:
+  case_sensitive: false     # 是否区分大小写
+  whole_word: false         # 是否只匹配完整单词
+  match_any: true           # 匹配任意一个关键词即可（true）或必须匹配所有关键词（false）
+  include_fields:           # 在哪些字段中搜索关键词
+    - "title"
+    - "abstract"
+    - "keywords"
