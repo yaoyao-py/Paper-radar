@@ -20,23 +20,43 @@ from src.storage.article_storage import ArticleStorage
 from src.notifiers.email_notifier import EmailNotifier
 
 def filter_yesterday_articles(articles: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """只保留昨天发布的文章"""
+    """
+    只保留昨天发布的文章，兼容多种日期格式。
+    """
+    try:
+        from dateutil.parser import parse as date_parse
+    except ImportError:
+        raise ImportError("请先安装 python-dateutil 包：pip install python-dateutil")
+
     yesterday = (datetime.now() - timedelta(days=1)).date()
     filtered = []
+
     for article in articles:
         pub_date = article.get('published_date')
-        # 兼容字符串和datetime对象
-        if isinstance(pub_date, str):
-            try:
-                pub_date_obj = datetime.strptime(pub_date[:10], "%Y-%m-%d").date()
-            except Exception:
-                continue
-        elif isinstance(pub_date, datetime):
+        pub_date_obj = None
+
+        if pub_date is None:
+            continue
+
+        # 1. 直接是 datetime 类型
+        if isinstance(pub_date, datetime):
             pub_date_obj = pub_date.date()
+        # 2. 是字符串，尝试多种格式解析
+        elif isinstance(pub_date, str):
+            try:
+                pub_date_obj = date_parse(pub_date).date()
+            except Exception:
+                # 如果解析失败，跳过
+                continue
         else:
             continue
+
+        # 可选：调试时输出每篇文章的日期解析结果
+        # print(f"解析到文章日期: {pub_date} -> {pub_date_obj}，标题: {article.get('title')}")
+
         if pub_date_obj == yesterday:
             filtered.append(article)
+
     return filtered
 
 def main():
