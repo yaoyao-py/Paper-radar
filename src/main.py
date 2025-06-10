@@ -59,6 +59,17 @@ def filter_yesterday_articles(articles: List[Dict[str, Any]]) -> List[Dict[str, 
 
     return filtered
 
+# def debug_article_dates(articles: List[Dict[str, Any]], source_name: str):
+#     """
+#     调试函数：检查每篇文章的published_date字段
+#     """
+#     logging.info(f"=== 调试 {source_name} 源的文章日期 ===")
+#     for i, article in enumerate(articles):
+#         pub_date = article.get('published_date')
+#         title = article.get('title', '无标题')[:50]  # 截取前50个字符
+#         logging.info(f"文章 {i+1}: published_date={pub_date}, 标题={title}")
+#     logging.info(f"=== {source_name} 源调试结束 ===")
+
 def main():
     """主程序入口"""
     # 配置日志
@@ -73,6 +84,8 @@ def main():
                         help='配置文件目录路径')
     parser.add_argument('--no-email', action='store_true',
                         help='不发送邮件，仅收集和过滤文章')
+    # parser.add_argument('--debug-dates', action='store_true',
+    #                     help='启用日期调试模式')
     args = parser.parse_args()
     
     # 获取配置目录的绝对路径
@@ -124,6 +137,11 @@ def main():
             try:
                 collector = ApiCollector(source_id, source_config)
                 articles = collector.collect(keywords, max_articles_per_source)
+                
+                # 调试API源文章日期
+                # if args.debug_dates:
+                #     debug_article_dates(articles, f"API-{source_id}")
+                
                 all_articles.extend(articles)
             except Exception as e:
                 logging.error(f"从API源 {source_id} 收集文章失败: {str(e)}")
@@ -133,6 +151,11 @@ def main():
             try:
                 collector = RssCollector(source_id, source_config)
                 articles = collector.collect(keywords, max_articles_per_source)
+                
+                # 调试RSS源文章日期
+                # if args.debug_dates:
+                #     debug_article_dates(articles, f"RSS-{source_id}")
+                
                 all_articles.extend(articles)
             except Exception as e:
                 logging.error(f"从RSS源 {source_id} 收集文章失败: {str(e)}")
@@ -142,6 +165,11 @@ def main():
             try:
                 collector = WebCollector(source_id, source_config)
                 articles = collector.collect(keywords, max_articles_per_source)
+                
+                # 调试网页源文章日期
+                # if args.debug_dates:
+                #     debug_article_dates(articles, f"WEB-{source_id}")
+                
                 all_articles.extend(articles)
             except Exception as e:
                 logging.error(f"从网页源 {source_id} 收集文章失败: {str(e)}")
@@ -152,6 +180,15 @@ def main():
         filtered_articles = keyword_filter.filter_articles(all_articles)
         logging.info(f"关键词过滤后剩余 {len(filtered_articles)} 篇文章")
         
+        # 打印关键词过滤后剩余文章的标题和时间
+        # print("\n=== 关键词过滤后剩余文章列表 ===")
+        # for i, article in enumerate(filtered_articles, 1):
+        #     title = article.get("title", "无标题")
+        #     pub_date = article.get("published_date", "无日期")
+        #     print(f"{i}. 标题: {title}")
+        #     print(f"   发布时间: {pub_date}")
+        #     print("-" * 80)
+        
         # 只保留昨天的文章
         yesterday_articles = filter_yesterday_articles(filtered_articles)
         logging.info(f"仅保留昨天的文章后剩余 {len(yesterday_articles)} 篇文章")
@@ -160,7 +197,7 @@ def main():
         new_articles = article_storage.save_articles(yesterday_articles)
         logging.info(f"去重后有 {len(new_articles)} 篇新文章")
         
-        # 发送邮件
+        # 发送邮件部分 
         if not args.no_email and new_articles:
             # 初始化邮件通知器
             email_notifier = EmailNotifier(email_config)
@@ -184,6 +221,7 @@ def main():
         else:
             logging.info("没有新文章需要发送")
         
+        logging.info("程序运行完成")
         return 0
     
     except Exception as e:

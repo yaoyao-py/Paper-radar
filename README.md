@@ -211,7 +211,7 @@ jobs:
 编辑`config/keywords.yaml`文件，在`keywords`列表中添加新的关键词。
 
 ### 添加新的期刊或数据库
-
+目前内置支持Science, Nature, Nature Energy, AM, AFM, AEM,arxiv, JACS期刊
 编辑`config/journals.yaml`文件，根据数据源类型（API、RSS或网页）添加新的配置。
 
 #### 添加API数据源示例：
@@ -266,7 +266,7 @@ web_sources:
 
 ### 自定义解析器
 
-如果需要为新的数据源添加自定义解析器，可以在相应的采集器模块中添加新的解析方法。
+如果需要为新的数据源添加自定义解析器，可以在相应的采集器模块中添加新的解析方法。`src/collector`
 
 ## 故障排除
 

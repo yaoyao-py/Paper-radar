@@ -41,22 +41,22 @@ rss_sources:
   science:
     name: "Science"
     type: "rss"
-    url: "https://www.science.org/rss/journal/science.xml"
+    url: "https://www.science.org/action/showFeed?type=axatoc&feed=rss&jc=science"
     parser: "science_rss_parser"
   advanced_materials:
     name: "Advanced Materials"
     type: "rss"
-    url: "https://advancedsciencenews.com/feed/journal/advmat"
+    url: "https://advanced.onlinelibrary.wiley.com/feed/15214095/most-recent"
     parser: "wiley_rss_parser"
   advanced_functional_materials:
     name: "Advanced Functional Materials"
     type: "rss"
-    url: "https://advancedsciencenews.com/feed/journal/adfm"
+    url: "https://advanced.onlinelibrary.wiley.com/feed/16163028/most-recent"
     parser: "wiley_rss_parser"
   advanced_energy_materials:
     name: "Advanced Energy Materials"
     type: "rss"
-    url: "https://advancedsciencenews.com/feed/journal/aenm"
+    url: "https://advanced.onlinelibrary.wiley.com/feed/16146840/most-recent"
     parser: "wiley_rss_parser"
   jacs:
     name: "Journal of the American Chemical Society"
